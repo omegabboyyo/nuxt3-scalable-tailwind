@@ -78,7 +78,7 @@
         </div>
       </div>
     </section>
-    <!-- Blog Section Ends  -->
+    <!--- Blog Section Ends  --->
   </main>
 </template>
 
