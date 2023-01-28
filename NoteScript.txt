@@ -1,0 +1,330 @@
+Nuxt 3 Advanced Online Course 21-01-2023
++++++++++++++++++++++++++++++++++
+| Day 1
+| Nuxt3 Tailwind CSS for scalable project
++++++++++++++++++++++++++++++++++
+Step 1: สร้างโปรเจ็กต์ใหม่ด้วย Nuxt 3
+---
+npx nuxi init nuxt3-scalable-tailwind
+
+Step 2: เปิดเข้า VSCode
+---
+code nuxt3-scalable-tailwind -r
+
+Step 3: ติดตั้ง Dependencies (node_module)
+---
+npm install
+
+Step 4: ทดสอบรันโปรเจ็กต์ dev mode
+---
+npm run dev
+
+Step 5: ติดตั้ง Tailwind CSS
+---
+npm install -D tailwindcss postcss autoprefixer
+
+Step 6: สร้างไฟล์ tailwind config
+---
+npx tailwindcss init
+
+Step 7: Add Tailwind to your PostCSS configuration in nuxt.config.js
+---
+postcss: {
+    plugins: {
+      tailwindcss: {},
+      autoprefixer: {},
+    },
+  },
+
+Step 8: Configure your template paths
+---
+mode: 'jit',
+content: [
+    "./components/**/*.{js,vue,ts}",
+    "./layouts/**/*.vue",
+    "./pages/**/*.vue",
+    "./plugins/**/*.{js,ts}",
+    "./nuxt.config.{js,ts}",
+    "./app.vue",
+  ],
+
+Step 9: Add the Tailwind directives to your CSS
+---
+สร้างไฟล์ main.css ไว้ในโฟลเดอร์ ./assets/css/tailwind.css
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+Step 10: Add the CSS file globally in file nuxt.config.js
+---
+css: ['~/assets/css/tailwind.css'],
+
+ทดสอบเรียกใช้ Tailwind ที่ไฟล์ app.vue
+---
+<div class="flex justify-center items-center h-screen">
+    <h1 class="text-3xl font-bold text-purple-600 animate-bounce">
+      Hello Nuxt 3
+    </h1>
+</div>
+
+รันโปรเจ็กต์ทดสอบ
+---
+npm run dev
+
+Step 11: ติดตั้ง @nuxtjs/robots
+---
+npm install @nuxtjs/robots -D
+
+Config nuxt.config.ts for Meta SEO Tag
+---
+modules: [
+      [
+        // Nuxt Robots
+        '@nuxtjs/robots',
+        {
+          UserAgent: "*",
+          Disallow: "",
+        }
+      ],
+    ]
+
+and 
+
+app: {
+        head: {
+            htmlAttrs: {
+                lang: 'en'
+            },
+            bodyAttrs: {
+                class: 'demo'
+            },
+            charset: 'utf-8',
+            titleTemplate: '%s | IT Genius Engineering',
+            meta: [
+                {
+                    name: 'author',
+                    content: 'IT Genius Engineering Ltd., Thailand'
+                },
+                {
+                    name: 'viewport',
+                    content: 'width=device-width, initial-scale=1, maximum-scale=5'
+                }
+            ]
+        }
+    },
+
+Then test use title in app.vue
+---
+<script lang="ts" setup>
+  useHead({
+    title: 'Home',
+    meta: [
+      { 
+        name: 'description', 
+        content: 'Home Nuxt 3, IT Genius Engineering' 
+      },
+      {
+        name: 'keywords',
+        content: 'Home, Nuxt 3, Learning Nuxt 3'
+      },
+    ],
+  })
+</script>
+
+หมายเหตุ
+---
+หากทดสอบ Lighthouse วัดประสิทธิภาพของเว็บตอนนี้น่าจะได้ 100/100/100/100 แล้ว
+
+
+Step 12: ติดตั้ง Modules Nuxt-icon
+---
+npm install --save-dev nuxt-icon
+
+จากนั้นทำการ config ที่ไฟล์ nuxt.config.ts
+---
+modules: [
+      'nuxt-icon'
+],
+
+ทดสอบเรียกใช้ icon ที่ไฟล์ app.vue
+---
+<Icon name="icon-park:home-two"></Icon>
+
+Step 13: การสร้าง Components
+---
+npx nuxi add component App/Header
+
+<script lang="ts" setup></script>
+<template>
+  <nav class="bg-gray-900 text-white py-5 border-b border-gray-700">
+    <div class="container flex flex-col sm:flex-row justify-center gap-3 sm:gap-0 sm:justify-between items-center">
+      <NuxtLink to="/"
+        class="text-2xl font-medium">Nuxt 3 Blog</NuxtLink>
+      <ul class="nav">
+        <li>
+          <NuxtLink to="/">Home</NuxtLink>
+        </li>
+        <li>
+          <NuxtLink to="/categories">Categories</NuxtLink>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</template>
+
+<style>
+ul.nav {
+  @apply flex gap-5 items-center justify-end;
+}
+
+ul.nav>li>a {
+  @apply text-gray-300 hover: text-gray-50;
+}
+
+ul.nav>li>a.router-link-active {
+  @apply text-primary-400;
+}
+</style>
+
+npx nuxi add component App/Footer
+
+<script lang="ts" setup></script>
+
+<template>
+  <footer class="px-4 sm:px-0 bg-gray-800 text-white">
+    <div
+      class="container py-4 mx-auto flex flex-col sm:flex-row justify-between gap-2 sm:items-center"
+    >
+      <a href="#" class="font-semibold text-lg text-white">Nuxt Tailwind</a>
+      <div class="text-sm">
+        Nuxt Tailwind by
+        <a
+          href="#"
+          class="font-semibold text-white"
+        >
+          IT Genius
+        </a>
+        . All rights reserved
+      </div>
+    </div>
+  </footer>
+</template>
+
+<style scoped></style>
+
+
+Step 14: การสร้าง Layouts
+---
+npx nuxi add layout default
+
+<script lang="ts" setup></script>
+
+<template>
+  <div>
+
+    <AppHeader />
+    
+    <div class="container mx-auto px-4 sm:px-0 py-4">
+      <slot />
+    </div>
+
+    <AppFooter />
+
+  </div>
+</template>
+
+<style scoped></style>
+
+Step 15: การสร้าง Pages
+---
+npx nuxi add page index
+
+
+<script lang="ts" setup>
+  useHead({
+    title: 'Home',
+    meta: [
+      { 
+        name: 'description', 
+        content: 'Home Nuxt 3, IT Genius Engineering' 
+      },
+      {
+        name: 'keywords',
+        content: 'Home, Nuxt 3, Learning Nuxt 3'
+      },
+    ],
+  })
+</script>
+
+<template>
+  <div>
+    
+    <section
+      id="hero"
+      class="bg-skin-fill sm:h-screen grid place-items-center -mt-1 sm:mt-0 hero-default"
+    >
+      <div
+        class="container mx-auto px-4 xl:px-0 flex flex-col sm:flex-row items-center justify-between gap-6 sm:gap-20"
+      >
+        <div class="w-full sm:w-6/12">
+          <h1 class="text-4xl sm:text-6xl font-bold xl:leading-[4rem] text-skin-base">
+            Nuxt 3 Tailwind
+          </h1>
+          <p class="text-xl mt-4 mb-14 text-skin-muted">
+            Nuxt 3 + Tailwind CSS for Starter kit
+          </p>
+          <div class="space-x-4">
+            <button class="text-2xl text-white px-4 py-3 bg-teal-700 rounded-lg">
+              Get Starte
+            </button>
+          </div>
+        </div>
+        <div class="w-full sm:w-6/12 flex justify-end p-6 sm:p-0">
+          <img loading="lazy" src="~/assets/images/speaker.jpg" alt="" class="w-auto rounded-lg animate-pulse">
+        </div>
+      </div>
+    </section>
+
+  </div>
+</template>
+
+<style scoped>
+
+animation: bounce 1s infinite;
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(-5%);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% {
+    transform: translateY(0);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+
+</style>
+
+
+Step 16: เรียกใช้ Layout ที่ไฟล์ app.vue
+---
+<template>
+  <NuxtLayout>
+    <NuxtPage />
+  </NuxtLayout>
+</template>
+
+Step 17: สร้าง BlogGrid
+---
+npx nuxi add component Blog/Grid
+
+Step 18: อัพเดทไฟล์ index.vue
+---
+
+
+Step 19: สร้าง page / categories, contact
+---
+npx nuxi add page categories/index
+npx nuxi add page contact
+
